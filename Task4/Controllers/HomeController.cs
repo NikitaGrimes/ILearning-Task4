@@ -25,7 +25,10 @@ namespace Task4.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 if (IsSignOutUserForcibly())
+                {
                     _signInManager.SignOutAsync();
+                    return RedirectToAction("Login", "Account");
+                }
                 else
                     _repository.UpdateLastLoginDateUser(User.Identity.Name);
             }
@@ -34,12 +37,15 @@ namespace Task4.Controllers
         }
 
         [Authorize]
-        public IActionResult UsersList()
+        public IActionResult Users()
         {
             if (User.Identity.IsAuthenticated)
             {
                 if (IsSignOutUserForcibly())
+                {
                     _signInManager.SignOutAsync();
+                    return RedirectToAction("Login", "Account");
+                }
                 else
                     _repository.UpdateLastLoginDateUser(User.Identity.Name);
             }
@@ -82,7 +88,7 @@ namespace Task4.Controllers
                     _repository.UpdateLastLoginDateUser(User.Identity.Name);
             }
 
-            return RedirectToAction("UsersList", "Home");
+            return RedirectToAction("Users", "Home");
         }
 
         [HttpPost]
@@ -104,7 +110,7 @@ namespace Task4.Controllers
                     if (user.IsChecked)
                         _repository.UpdateBlockedStatus(user.UserName, false);
 
-            return RedirectToAction("UsersList", "Home");
+            return RedirectToAction("Users", "Home");
         }
 
         public IActionResult Delete(List<UserModel> userModel)
@@ -136,7 +142,7 @@ namespace Task4.Controllers
                     _repository.UpdateLastLoginDateUser(User.Identity.Name);
             }
 
-            return RedirectToAction("UsersList", "Home");
+            return RedirectToAction("Users", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

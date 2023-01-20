@@ -12,21 +12,22 @@ namespace Task4.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        private readonly IApplicationRepository _appRepository;
+        private readonly IApplicationRepository _applicationRepository;
 
         public AccountController(SignInManager<ApplicationUser> signInManager, IApplicationRepository repository, 
             UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
-            _appRepository = repository;
+            _applicationRepository = repository;
             _userManager = userManager;
         }
 
         public IActionResult Login()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated && _applicationRepository.IsUserExist(User.Identity.Name)
+                && !_applicationRepository.IsUserBlocked(User.Identity.Name))
             {
-                _appRepository.UpdateLastLoginDateUser(User.Identity.Name);
+                _applicationRepository.UpdateLastLoginDateUser(User.Identity.Name);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -36,14 +37,14 @@ namespace Task4.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            if (ModelState.IsValid && !_appRepository.IsUserBlocked(model.UserName))
+            if (ModelState.IsValid && !_applicationRepository.IsUserBlocked(model.UserName))
             {
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password,
                     false, false);
                 if (result.Succeeded)
                 {
-                    _appRepository.UpdateLastLoginDateUser(model.UserName);
-                    return RedirectToAction("UsersList", "Home");
+                    _applicationRepository.UpdateLastLoginDateUser(model.UserName);
+                    return RedirectToAction("Users", "Home");
                 }
             }
 
@@ -55,7 +56,7 @@ namespace Task4.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                _appRepository.UpdateLastLoginDateUser(User.Identity.Name);
+                _applicationRepository.UpdateLastLoginDateUser(User.Identity.Name);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -87,9 +88,9 @@ namespace Task4.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                if (_appRepository.IsUserExist(User.Identity.Name) &&
-                    !_appRepository.IsUserBlocked(User.Identity.Name))
-                    _appRepository.UpdateLastLoginDateUser(User.Identity.Name);
+                if (_applicationRepository.IsUserExist(User.Identity.Name) &&
+                    !_applicationRepository.IsUserBlocked(User.Identity.Name))
+                    _applicationRepository.UpdateLastLoginDateUser(User.Identity.Name);
                 else
                 {
                     _signInManager.SignOutAsync();

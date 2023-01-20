@@ -7,5 +7,22 @@
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword />
+    <History>False|2023-01-20T12:52:33.3573241Z;</History>
+    <LastFailureDetails />
+    <_PublishTargetUrl>ftp://win8012.site4now.net:21/site1</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>01/17/2023 16:56:35</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>01/20/2023 14:49:13</publishTime>
+    </File>
+    <File Include="Microsoft.Data.SqlClient.dll">
+      <publishTime>09/21/2021 02:59:32</publishTime>
+    </File>
+    <File Include="Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>01/14/2022 22:54:16</publishTime>
+    </File>
+  </ItemGroup>
 </Project>
