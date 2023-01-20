@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Users List";
+}
+@model List<UserModel>
+<script>
+    function Selectall() {
+        if ($('.multy-check').is(':checked')) 
+        {
+            $('.item-check').prop('checked', true);
+        }
+        else 
+        {
+            $('.item-check').prop('checked', false);;
+        }
+    }
+</script>
+<h1>@ViewData["Title"]</h1>
+<form method="post">
+    <table class="table-responsive">
+        <tr>
+            <td>
+                <div class="form-group">
+                    <input asp-action="Block" type="submit" value="Block" class="btn btn-warning" />
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <input asp-action="UnBlock" type="submit" value="Unblock" class="btn btn-success" />
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <input asp-action="Delete" type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <td>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input multy-check" onchange="Selectall();"/>
+                </div>
+            </td>
+            <td>ID</td>
+            <td>User Name</td>
+            <td>Email</td>
+            <td>Register Date</td>
+            <td>Last LogIn Date</td>
+            <td>Blocked Status</td>
+        </tr>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <input asp-for="@Model[i].IsChecked" type="checkbox" class="form-check-input item-check" />
+                    </div>
+                </td>
+                <td>
+                    <label asp-for="@Model[i].Id">@Model[i].Id</label>
+                    <input asp-for="@Model[i].Id" type="hidden" />
+                </td>
+                <td>
+                    <label asp-for="@Model[i].UserName">@Model[i].UserName</label>
+                    <input asp-for="@Model[i].UserName" type="hidden" />
+                </td>
+                <td>
+                    <label asp-for="@Model[i].Email">@Model[i].Email</label>
+                    <input asp-for="@Model[i].Email" type="hidden" />
+                </td>
+                <td>
+                    <label asp-for="@Model[i].RegisterDate">@Model[i].RegisterDate</label>
+                    <input asp-for="@Model[i].RegisterDate" type="hidden" />
+                </td>
+                <td>
+                    <label asp-for="@Model[i].LastLogInDate">@Model[i].LastLogInDate</label>
+                    <input asp-for="@Model[i].LastLogInDate" type="hidden" />
+                </td>
+                <td>
+                    <label asp-for="@Model[i].IsBlocked">@Model[i].IsBlocked</label>
+                    <input asp-for="@Model[i].IsBlocked" type="hidden" />
+                </td>
+            </tr>
+        }
+    </table>
+</form>
