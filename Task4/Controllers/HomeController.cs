@@ -51,15 +51,15 @@ namespace Task4.Controllers
             }
 
             var users = _repository.GetAllUsers();
-            List<UserModel> usersList = new List<UserModel>();
+            List<UserModel> usersNodel = new List<UserModel>();
             foreach (var user in users)
-                usersList.Add(user);
+                usersNodel.Add(user);
             
-            return View(usersList);
+            return View(usersNodel);
         }
 
         [HttpPost]
-        public IActionResult Block(List<UserModel> userModel)
+        public IActionResult Block(List<UserModel> usersModel)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -72,8 +72,8 @@ namespace Task4.Controllers
                     _repository.UpdateLastLoginDateUser(User.Identity.Name);
             }
 
-            if (userModel.Count != 0)
-                foreach (var user in userModel)
+            if (usersModel.Count != 0)
+                foreach (var user in usersModel)
                     if (user.IsChecked)
                         _repository.UpdateBlockedStatus(user.UserName, true);
 
@@ -92,7 +92,7 @@ namespace Task4.Controllers
         }
 
         [HttpPost]
-        public IActionResult UnBlock(List<UserModel> userModel)
+        public IActionResult UnBlock(List<UserModel> usersModel)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -105,15 +105,15 @@ namespace Task4.Controllers
                     _repository.UpdateLastLoginDateUser(User.Identity.Name);
             }
 
-            if (userModel.Count != 0)
-                foreach (var user in userModel)
+            if (usersModel.Count != 0)
+                foreach (var user in usersModel)
                     if (user.IsChecked)
                         _repository.UpdateBlockedStatus(user.UserName, false);
 
             return RedirectToAction("Users", "Home");
         }
 
-        public IActionResult Delete(List<UserModel> userModel)
+        public IActionResult Delete(List<UserModel> usersModel)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -126,8 +126,8 @@ namespace Task4.Controllers
                     _repository.UpdateLastLoginDateUser(User.Identity.Name);
             }
 
-            if (userModel.Count != 0)
-                foreach (var user in userModel)
+            if (usersModel.Count != 0)
+                foreach (var user in usersModel)
                     if (user.IsChecked)
                         _repository.DeleteUser(user.UserName);
 
